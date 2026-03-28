@@ -7,7 +7,22 @@
 
 
 function retryOnce(fn) {
-
+   return function (callback){
+    
+        fn((err, result) => {
+            if (!err){
+                callback(null, result);
+            }else{
+                fn((err, result) => {
+                    if (!err){
+                        callback(null, result)
+                    }else{
+                        callback(err, null);
+                    }
+                })
+            }
+        })
+   }
 }
 
 module.exports = retryOnce;

@@ -9,7 +9,17 @@
 
 
 function callbackify(fn) {
-
+    function retFun (...args){
+        const callback = args.pop();
+        fn(...args)
+        .then((data) =>{
+            callback(null, data)
+        })
+        .catch((err) => {
+            callback(err);
+        })
+    }
+    return retFun;
 }
 
 module.exports = callbackify;

@@ -6,7 +6,10 @@
 // with an error.
 
 function rejectAfter(ms, callback) {
-
+    return setTimeout(() =>{
+        const error = new Error(`Rejected after ${ms}ms`);
+        callback(error, null);
+    }, ms);
 }
 
 module.exports = rejectAfter;
