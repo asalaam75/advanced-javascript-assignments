@@ -8,6 +8,18 @@
 // (such as timers or async callbacks) from running until it completes.
 
 
-function heavyCPU(iterations) {}
+function heavyCPU(iterations) {
+    setTimeout(() => {
+    console.log("Timer fired");
+}, 0);
+ let sum = 0;
+    console.log(" start");
+for (let i = 0; i < iterations; i++) {
+    // do something trivial
+    sum += i;
+}    console.log("end");
+
+return sum;
+}
 
 module.exports = heavyCPU;
