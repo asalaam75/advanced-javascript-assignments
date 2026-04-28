@@ -6,6 +6,32 @@
 
 const pendingRequests = new Map();
 
-function deduplicatedFetch(id, apiCall) {}
+function deduplicatedFetch(id, apiCall) {
+
+    if(pendingRequests.has(id)){
+        return pendingRequests.get(id);
+    }
+
+    const promise = Promise.resolve()
+    .then(() => apiCall())
+    .then(
+        (res) => {
+            pendingRequests.delete(id);
+            return res;
+        },
+        (err) => {
+            pendingRequests.delete(id);
+            throw err;
+        }
+    );
+
+    pendingRequests.set(id, promise);
+
+    // promise.finally(() => {
+    //     pendingRequests.delete(id);
+    // });
+
+    return promise;
+}
 
 module.exports = deduplicatedFetch;
